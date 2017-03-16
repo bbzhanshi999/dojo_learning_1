@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>domfn</title>
+    <script>
+        var dojoConfig = {
+            async: true,
+            baseUrl: '.',
+            packages: [
+                'dojo',
+                'dijit',
+                'dojox'
+            ]
+        };
+    </script>
+    <script src="dojo/dojo.js" data-dojo-config="async:true"></script>
+    <script>
+        require(['dojo/dom','dojo/dom-construct','dojo/topic','dojo/on','dojo/domReady!'],function(dom,domConstruct,topic,on){
+            var btn1 = dom.byId('btn1');
+            var createbtn = dom.byId('createBtn');
+            var num =1;
+            on(btn1,'click',function(e){
+                topic.publish('alertBtn',{id:this.id});
+            });
+            on(createbtn,'click',function(e){
+                num+=1;
+                var anotherBtn =domConstruct.create('button',{
+                    id:'btn'+num,
+                    innerHTML:'btn'+num
+                },createbtn,'after');
+
+                on(anotherBtn,'click',function(e){
+                    topic.publish('alertBtn',{id:'btn'+num});
+                });
+            });
+            topic.subscribe('alertBtn',function(obj){
+                alert(obj.id+':I know you');
+            })
+        })
+    </script>
+</head>
+<body>
+<button id="btn1">btn1</button>
+<button id="createBtn">createBtn</button>
+</body>
+</html>

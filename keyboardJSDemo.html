@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>domfn</title>
+    <script>
+        var dojoConfig = {
+            async: true,
+            baseUrl: '.',
+            packages: [
+                'dojo',
+                'dijit',
+                'dojox',
+                'modules'
+            ]
+        };
+    </script>
+    <script src="dojo/dojo.js" data-dojo-config="async:true"></script>
+    <script>
+        require(['dojo/query', 'dojo/dom', 'dojo/dom-construct', 'modules/keyboardJS/keyboard.min','dojo/NodeList-traverse', 'dojo/domReady!'], function (query, dom, domConstruct, keyboardJS, declare) {
+            keyboardJS.watch(query('#myForm')[0]);
+            keyboardJS.on('up',function(e){
+                var node = query.NodeList(e.target);
+                var prevNode = node.prev('input');
+                if(prevNode[0]){
+                    prevNode[0].focus();
+                }
+
+            })
+        })
+    </script>
+</head>
+<body>
+<form id="myForm">
+    <input type="text" name="name" placeholder="name"/>
+    <input type="text" name="nickname" placeholder="nickname"/>
+    <input type="text" name="father" placeholder="father"/>
+    <input type="text" name="mother" placeholder="mother"/>
+    <input type="text" name="cousins" placeholder="cousins"/>
+    <button type="button">提交</button>
+</form>
+<input type="text" name="fuck" placeholder="fuck"/>
+</body>
+</html>

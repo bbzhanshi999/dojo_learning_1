@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>domfn</title>
+    <script>
+        var dojoConfig = {
+            async: true,
+            baseUrl: '.',
+            packages: [
+                'dojo',
+                'dijit',
+                'dojox',
+                'modules'
+            ]
+        };
+    </script>
+    <script src="dojo/dojo.js" data-dojo-config="async:true"></script>
+    <script>
+        /*以下代码演示链式ajax调用，避免ajax hell*/
+        require(['dojo/dom', 'dojo/request', 'dojo/json', 'dojo/domReady!'], function (dom, request, JSON) {
+            var contentA = dom.byId('contentA'), contentB = dom.byId('contentB'), contentC = dom.byId('contentC');
+            var processA = request('data/user.json', {handleAs: "json"}).then(function (resp) {
+                console.log('a get data');
+                contentA.innerHTML = JSON.stringify(resp);
+                return resp;
+            });
+            var proceesB = function (data) {
+                if (data) {
+                    return request.get('data/duty.json', {handleAs: 'json'}).then(function (resp) {
+                        console.log('b get data');
+                        contentB.innerHTML = JSON.stringify(resp);
+                        return resp;
+                    });
+                }
+            };
+            var processC = function (data) {
+                if (data) {
+                    return request.get('data/sexual.json', {handleAs: 'json'}).then(function (resp) {
+                        console.log('c get data');
+                        contentC.innerHTML = JSON.stringify(resp);
+                        return resp;
+                    });
+                }
+            };
+            var processD = function (data) {
+                alert(JSON.stringify(data))
+            };
+
+            processA.then(proceesB).then(processC).then(processD);
+        })
+    </script>
+</head>
+<body>
+<p id="contentA" style="border:dashed rgba(48,45,52,0.99) 1px"></p>
+<p id="contentB" style="border:dashed rgba(48,45,52,0.99) 1px"></p>
+<p id="contentC" style="border:dashed rgba(48,45,52,0.99) 1px"></p>
+</body>
+</html>

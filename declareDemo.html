@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>domfn</title>
+    <script>
+        var dojoConfig = {
+            async: true,
+            baseUrl: '.',
+            packages: [
+                'dojo',
+                'dijit',
+                'dojox',
+                'modules'
+            ]
+        };
+    </script>
+    <script src="dojo/dojo.js" data-dojo-config="async:true"></script>
+    <script>
+        require(['dojo/_base/declare'], function (declare) {
+            var Person = declare(null, {
+                username: 'your father',
+                books:['1','2','3'],
+                constructor: function (args) {
+                    declare.safeMixin(this, args);
+                }
+            });
+            var p1 =new Person({username:'your mama',books:['fuck','you']});
+            var p2 =new Person({username:'your cousins'});
+            log(p1.books);
+            console.log(p2.books);
+            p2.books = 3;
+            console.log(p2.books);
+
+        })
+    </script>
+</head>
+<body>
+<form>
+    <input type="text" name="name" placeholder="name"/>
+    <input type="text" name="nickname" placeholder="nickname"/>
+    <button type="button">提交</button>
+</form>
+</body>
+</html>

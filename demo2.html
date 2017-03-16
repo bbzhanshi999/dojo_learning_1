@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>domfn</title>
+    <script>
+        var dojoConfig = {
+            async: true,
+            baseUrl: '.',
+            packages: [
+                'dojo',
+                'dijit',
+                'dojox'
+            ]
+        };
+    </script>
+    <script src="dojo/dojo.js" data-dojo-config="async:true"></script>
+    <script>
+        require(['dojo/dom','dojo/dom-construct','dojo/query','dojo/NodeList-dom','dojo/domReady!'],function(dom,domConstruct,query){
+            var ul = dom.byId('list');
+            var two = dom.byId('two');
+            domConstruct.create('li',{
+                innerHTML:'first'
+            },ul,'first');
+            domConstruct.create('li',{
+                innerHTML:'二点五',
+                style:{
+                    backgroundColor:'red',
+                    fontFamily:'宋体',
+                    color:'yellow'
+                },
+                id:"two-point-five",
+                'data-fuck':'you'
+            },two,'after');
+
+            console.log(query('#list li'));
+            console.log(query('#list'));
+            console.log(dom.byId('list'));
+            query('#list li').addClass('test');
+        })
+    </script>
+</head>
+<body>
+<ul id="list">
+    <li id="one">One</li>
+    <li id="two">Two</li>
+    <li id="three">Three</li>
+    <li id="four">Four</li>
+    <li id="five">Five</li>
+</ul>
+</body>
+</html>
