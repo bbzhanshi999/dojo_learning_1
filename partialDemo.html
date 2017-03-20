@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>domfn</title>
+    <link href="./dijit/themes/claro/claro.css" rel="stylesheet" media="screen"/>
+    <script>
+        var dojoConfig = {
+            async: true,
+            baseUrl: '.',
+            packages: [
+                'dojo',
+                'dijit',
+                'dojox',
+                'modules'
+            ]
+        };
+    </script>
+    <script src="dojo/dojo.js" data-dojo-config="async:true"></script>
+    <script>
+        /*以下代码测试lang.partical*/
+        require(['dojo/dom', 'dojo/query', 'dojo/_base/lang', 'dijit/form/Button', 'dojo/domReady!'], function (dom, query, lang, Button) {
+            var myObj = {
+                foo: 'bar',
+                onClick: function (obj, e) {
+                    console.log(obj.foo);
+                    console.log(e);
+                    console.log(this);
+                }
+            };
+            var button = new Button({
+                iconClass: "dijitIconNewTask",
+                showLabel: false,
+                label: "Click Me!",
+                onClick:lang.hitch({fuck:'you'},myObj.onClick,myObj)   //这是hitch与partial的最佳合体，不仅替换了context，也增加了参数
+//                onClick:lang.partial({fuck:'you'},myObj.onClick,myObj)
+            }, 'myButton');
+            button.startup();
+        })
+    </script>
+</head>
+<body class="claro">
+<div>
+
+    <button id="myButton"></button>
+</div>
+</body>
+</html>

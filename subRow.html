@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>domfn</title>
+    <link href="./dijit/themes/claro/claro.css" rel="stylesheet" media="screen"/>
+    <link href="./dgrid/css/dgrid.css" rel="stylesheet" media="screen"/>
+    <link href="./dgrid/css/skins/claro.css" rel="stylesheet" media="screen"/>
+    <script>
+        var dojoConfig = {
+            async: true,
+            baseUrl: '.',
+            packages: [
+                'dojo',
+                'dijit',
+                'dojox',
+                'dgrid',
+                'dstore',
+                'modules'
+            ]
+        };
+    </script>
+    <script src="dojo/dojo.js" data-dojo-config="async:true"></script>
+    <script>
+        /*测试subrow*/
+        require(['dgrid/OnDemandGrid', 'dstore/RequestMemory', 'dojo/domReady!'], function (OnDemandGrid, RequestMemory) {
+            var grid = new OnDemandGrid({
+                collection: new RequestMemory({target: './data/userforSubRow.json'}),
+                subRows: [[
+                    {
+                        field: 'name', label: 'name', rowSpan: 2, get: function (obj) {
+                            return obj.name + ':baba'
+                        }
+                    },
+                    {field: 'sexual', label: 'seuxal'},
+                    {field: 'age', label: 'age'}
+                ], [
+                    {field: 'address', label: 'address', colSpan: 2}
+                ]]
+            }, 'grid');
+            grid.startup();
+        })
+    </script>
+</head>
+<body class="claro">
+<div id="grid"></div>
+</body>
+</html>

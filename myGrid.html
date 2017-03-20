@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>domfn</title>
+    <link href="./dijit/themes/claro/claro.css" rel="stylesheet" media="screen"/>
+    <link href="./dgrid/css/dgrid.css" rel="stylesheet" media="screen"/>
+    <link href="./dgrid/css/skins/claro.css" rel="stylesheet" media="screen"/>
+    <script>
+        var dojoConfig = {
+            async: true,
+            baseUrl: '.',
+            packages: [
+                'dojo',
+                'dijit',
+                'dojox',
+                'dgrid',
+                'dstore',
+                'modules'
+            ]
+        };
+    </script>
+    <script src="dojo/dojo.js" data-dojo-config="async:true"></script>
+    <script>
+        /*测试自己封装的表格dgrid*/
+        require(['modules/MyGrid','dojo/domReady!'], function (CustomGrid) {
+            var data = [
+                { first: 'Bob', last: 'Barker', age: 89 },
+                { first: 'Vanna', last: 'White', age: 55 },
+                { first: 'Pat', last: 'Sajak', age: 65 }
+            ];
+
+            var grid = new CustomGrid({
+                columns: {
+                    first: 'First Name',
+                    last: 'Last Name',
+                    age: 'Age'
+                },
+                // for Selection; only select a single row at a time
+                selectionMode: 'single',
+                // for Keyboard; allow only row-level keyboard navigation
+                cellNavigation: true
+            }, 'grid');
+            grid.renderArray(data);
+            grid.on('dgrid-select',function (e) {
+                console.log(e.rows);
+            })
+            grid.on('.dgrid-row:click', function (e) {
+                var row = grid.row(e);
+                console.log(grid.cell(e));
+                console.log('left:',grid.left(grid.cell(e)));
+                console.log('up:',grid.up(grid.row(e)));
+                var style = grid.styleColumn('first','background-color:red');//first是columnsId,
+                setTimeout(function () {
+                    style.remove();
+                },5000);//过五秒后去除css样式
+                console.log();
+                console.log(row);
+            });
+        })
+    </script>
+</head>
+<body class="claro">
+<div id="grid"></div>
+</body>
+</html>

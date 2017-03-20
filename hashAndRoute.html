@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>domfn</title>
+    <script>
+        var dojoConfig = {
+            async: true,
+            baseUrl: '.',
+            packages: [
+                'dojo',
+                'dijit',
+                'dojox',
+                'modules'
+            ]
+        };
+    </script>
+    <script src="dojo/dojo.js" data-dojo-config="async:true"></script>
+    <script>
+        /*以下代码演示router和hash*/
+        require([
+            'dojo/dom',
+            'dojo/on',
+            'dojo/query',
+            'dojo/dom-attr',
+            'dojo/router',
+            'dojo/hash',
+            'dojo/domReady!'], function (dom,on,query,domAttr,router, hash) {
+            hash(location.hash || hash(), true);
+            on(dom.byId('hrefBox'),'a:click',function(e){
+                console.log(hash());
+                e.preventDefault();
+                router.go('/url/'+domAttr.get(this,'href')+'/time/'+new Date());
+                //hash('fuck')
+            });
+            router.register('/url/:url/time/:date',function (e) {
+                var url = e.params.url;
+                var tabContainer = dom.byId('tabContainer');
+                tabContainer.innerHTML='this is url'+url+',time'+e.params.date;
+            });
+            router.startup();
+        })
+    </script>
+</head>
+<body>
+    <div id="hrefBox">
+        <a href="index">index</a>
+        <a href="home">home</a>
+        <a href="content">content</a>
+        <a href="about">about</a>
+    </div>
+    <div id="tabContainer">
+
+    </div>
+</body>
+</html>

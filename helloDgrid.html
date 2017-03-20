@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>domfn</title>
+    <link href="./dijit/themes/claro/claro.css" rel="stylesheet" media="screen"/>
+    <link href="./dgrid/css/dgrid.css" rel="stylesheet" media="screen"/>
+    <link href="./dgrid/css/skins/claro.css" rel="stylesheet" media="screen"/>
+    <script>
+        var dojoConfig = {
+            async: true,
+            baseUrl: '.',
+            packages: [
+                'dojo',
+                'dijit',
+                'dojox',
+                'dgrid',
+                'dstore',
+                'modules'
+            ]
+        };
+    </script>
+    <script src="dojo/dojo.js" data-dojo-config="async:true"></script>
+    <script>
+        /*表格dgrid*/
+        require(['dgrid/Grid','dgrid/List','dojo/on','dojo/domReady!'], function (Grid,List,on) {
+            var data = [
+                { first: 'Bob', last: 'Barker', age: 89 },
+                { first: 'Vanna', last: 'White', age: 55 },
+                { first: 'Pat', last: 'Sajak', age: 65 }
+            ];
+
+            var grid = new Grid({
+                columns: {
+                    first: 'First Name',
+                    last: 'Last Name',
+                    age: {
+                        label:'Age',
+                        get:function (obj) {
+                            //obj代表整个row对象
+                            return obj.age+1;
+                        }
+                    }
+                }
+            }, 'grid');
+            grid.renderArray(data);
+            data.push({first:'dad',last:'fuck',age:32});
+            grid.refresh();
+            grid.renderArray(data);
+
+        })
+    </script>
+</head>
+<body class="claro">
+<div id="grid"></div>
+</body>
+</html>

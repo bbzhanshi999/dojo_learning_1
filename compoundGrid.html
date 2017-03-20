@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>domfn</title>
+    <link href="./dijit/themes/claro/claro.css" rel="stylesheet" media="screen"/>
+    <link href="./dgrid/css/dgrid.css" rel="stylesheet" media="screen"/>
+    <link href="./dgrid/css/skins/claro.css" rel="stylesheet" media="screen"/>
+    <script>
+        var dojoConfig = {
+            async: true,
+            baseUrl: '.',
+            packages: [
+                'dojo',
+                'dijit',
+                'dojox',
+                'dgrid',
+                'dstore',
+                'modules'
+            ]
+        };
+    </script>
+    <script src="dojo/dojo.js" data-dojo-config="async:true"></script>
+    <script>
+        /*测试subrow*/
+        require(['dgrid/OnDemandGrid', 'dstore/RequestMemory', 'dojo/_base/declare',
+            'dgrid/extensions/CompoundColumns', 'dojo/domReady!'], function (OnDemandGrid, RequestMemory,declare,CompoundColumns) {
+           var CustomGrid = declare([OnDemandGrid,CompoundColumns]);
+           var grid =new CustomGrid({
+               collection:new RequestMemory({target:'./data/userforCompound.json'}),
+               subRows: [[
+                   {
+                       label: 'Full Name',
+                       children: [
+                           { field: 'first', label: 'First' },
+                           { field: 'last', label: 'Last' }
+                       ]
+                   },
+                   { field: 'sexual', label: 'sexual',rowSpan:1}
+               ],[
+                   { field: 'address', label: 'address' ,colSpan:1}
+               ]]
+           },'grid');
+           grid.startup();
+        })
+    </script>
+</head>
+<body class="claro">
+<div id="grid"></div>
+</body>
+</html>
